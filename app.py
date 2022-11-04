@@ -5,7 +5,7 @@ import logging
 import subprocess
 from datetime import datetime
 from collections import namedtuple
-sys.path.append(r"C:\_Development\Python\utils")
+sys.path.append(r"E:\_Development\Python\utils")
 from ryderlib.database.snowflake import SnowflakeRSABase 
 
 
@@ -112,9 +112,10 @@ class ETL_Dates(SnowflakeRSABase):
 
 def main():
     try:
-        if len(sys.argv)-1 < 2:
-            raise Exception("Missing paramteres")
-        tsp_param, credential_param = sys.argv[1].strip(), sys.argv[2].strip()
+        logger.info(f"Working Directory: '{os.getcwd()}'")
+        if len(sys.argv)-1 < 3:
+            raise Exception("Not enough paramteres passed")
+        tsp_param, credential_param, action_param = sys.argv[1].strip(), sys.argv[2].strip(), sys.argv[3].lower().strip()
         stage_config = config['snowflake']['stage'][env]
         stage_config['stage_name'] = f"{stage_config['stage_name']}_{tsp_param}_{credential_param}"
 
@@ -142,12 +143,13 @@ def main():
             if cmd_landing.returncode != 0 :
                 raise Exception(f"Landing to target command did not complete successfully")
 
-            if (res_stage := dbase.recreate_stage(tuple(stage_config.values()), target_name, target_container, target_token, cycle.tsp, cycle.credential, cycle.cycl_date)) is None:
-                raise Exception(f"Unable to recreate the stage")
-            elif res_stage == 1:
-                logger.info(f"Stage has been recreated successfully")
-                if (res_copy := dbase.copy_from_stage(tuple(stage_config.values()), cycle.cycl_run_id)) is None:
-                    raise Exception(f"Unable to copy data from stage")
+            if action_param == 'copy_cmd':
+                if (res_stage := dbase.recreate_stage(tuple(stage_config.values()), target_name, target_container, target_token, cycle.tsp, cycle.credential, cycle.cycl_date)) is None:
+                    raise Exception(f"Unable to recreate the stage")
+                elif res_stage == 1:
+                    logger.info(f"Stage has been recreated successfully")
+                    if (res_copy := dbase.copy_from_stage(tuple(stage_config.values()), cycle.cycl_run_id)) is None:
+                        raise Exception(f"Unable to copy data from stage")
 
         if (res_close := dbase.close_cycle(cycles[0].tbl_cycl_id, cycles[0].cycl_run_id, res_copy)) is None:
             raise Exception(f"Unable to close cycle")
