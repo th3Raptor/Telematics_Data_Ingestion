@@ -5,7 +5,8 @@ import logging
 import subprocess
 from datetime import datetime
 from collections import namedtuple
-sys.path.append(r"E:\_Development\Python\utils")
+# sys.path.append(r"C:\_Development\Python\utils")
+sys.path.append(r"E:\Utils")
 from ryderlib.database.snowflake import SnowflakeRSABase 
 
 
