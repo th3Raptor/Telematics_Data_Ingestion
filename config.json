@@ -1,0 +1,67 @@
+{
+	"environment": "development",
+	"log_level": "INFO",
+	"snowflake": {
+		"credentials": {
+			"development": {
+				"account": "ryder.east-us-2.azure",
+				"username": "sa_pytn",
+				"rsa_key_file_location": "C:\\config\\rsa_key_nc.p8",
+				"rolename": "R_RW_SYS_ADMIN_DEV",
+				"warehouse": "WH_DEV",
+				"database": "EDAP_DEV",
+				"schema": "SDL"
+			},
+			"production": {
+				"account": "ryder.east-us-2.azure",
+				"username": "sa_pytn",
+				"rsa_key_file_location": "C:\\config\\rsa_key_nc.p8",
+				"rolename": "R_RW_SYS_ADMIN_PRD",
+				"warehouse": "WH_INFA_PRD",
+				"database": "EDAP_PRD",
+				"schema": "SDL"
+			}
+		},
+		"stage": {
+			"development": {
+				"stage_name": "STG_AZ_SARYDEREDLSTGENTUS2DEV_TELEMATICS",
+				"stage_schema": "SBX",
+				"file_format": "FMT_CSV_TELEMATICS",
+				"file_format_schema": "SBX",
+				"comment": "Used to ingest Telematics JSON files as CSV"
+			},
+			"production": {
+				"stage_name": "STG_AZ_SARYDEREDLSTGENTUS2DEV_TELEMATICS",
+				"stage_schema": "SBX",
+				"file_format": "FMT_CSV_TELEMATICS",
+				"file_format_schema": "SBX",
+				"comment": "Used to ingest Telematics JSON files as CSV"
+			}
+		},
+		"schemas": {
+			"bdl_schema": "BDL",
+			"etl_schema": "ETL",
+			"sdl_schema": "SDL",
+			"idl_schema": "IDL"
+		}
+	},
+    "storage_account": {
+        "development": {
+            "source": {
+				"name": "saryderdatalakestgentprd",
+				"container": "ryderconnect",
+				"token":"?sv=2021-06-08&ss=bfqt&srt=sco&sp=rlupiytfx&se=2022-11-30T23:38:48Z&st=2022-11-02T14:38:48Z&spr=https&sig=jt8JbzRsrF%2BUgBnBzZ2vneg7u5Ae%2Bs15qgc8k2pDn8E%3D"
+			},
+            "landing": {
+				"name": "saryderdatalakecfgscsdev",
+				"container": "ryderconnect",
+				"token":"?sv=2021-06-08&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2022-12-01T02:02:05Z&st=2022-11-02T17:02:05Z&spr=https&sig=IzzUB9XbfyxqGF3Og7NfPt6RKqQ0ZNP2D4zS9njpaB0%3D"
+			},
+			"target": {
+				"name": "saryderedlstgentus2dev",
+				"container": "ryderconnect",
+				"token":"?sv=2021-06-08&ss=bfqt&srt=sco&sp=rlacpiytfx&se=2022-11-30T22:49:34Z&st=2022-11-02T13:49:34Z&spr=https&sig=XmdIACk%2FjZQpJdr1sLny34TP8kNKPV0%2FJQNUtwWIGuc%3D"
+			}
+        }
+    }
+}
