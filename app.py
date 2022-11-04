@@ -159,7 +159,7 @@ def main():
         logger.info(f"Done loading")
         exit(0)
     except Exception as ex:
-        logging.exception(f"{ex}")
+        logger.error(f"{ex}")
         exit(1)
 
 
